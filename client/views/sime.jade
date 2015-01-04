@@ -1,0 +1,18 @@
+head
+  title sime
+  meta(charset='utf-8')
+  meta(name='viewport', content='width=device-width, maximum-scale=1, initial-scale=1, user-scalable=no')
+  meta(name='apple-mobile-web-app-capable', content='yes')
+  meta(name='apple-mobile-web-app-status-bar-style', content='black')
+  meta(name='apple-mobile-web-app-capable', content='yes')
+  meta(name='mobile-web-app-capable', content='yes')
+
+
+template(name="appBody")
+  +famousContext id="mainCtx"}}
+    +HeaderFooterLayout headerSize="50" footerSize="0"}}
+      +StateModifier align='[.5,.5]' origin='[.5,.5]' target="header" translate="[0,10,20]" 
+        +Surface size="[true, 50]"
+          #header sime
+      +RenderController id="mainRC" target="content" transition="slideWindowLeft" size="[undefined,undefined]"
+        +yield

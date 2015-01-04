@@ -1,0 +1,38 @@
+.backfaceVisibility {
+  -webkit-backface-visibility: visible;
+  backface-visibility: visible;
+}
+
+
+.top {
+  background-image: linear-gradient(to bottom, #064450, #1e64b6 100%);
+  color: white;
+}
+.parent {
+  display:table;
+  height: inherit;
+  width:inherit;
+}
+
+.child {
+  display:table-cell;
+  vertical-align:middle;
+  text-align:center;
+}
+
+.child span {
+  width:20;
+}
+
+.middle {
+
+}
+
+.center {
+  text-align: center;
+  position: relative;
+  top: 40%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}

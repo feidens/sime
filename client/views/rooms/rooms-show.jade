@@ -1,0 +1,38 @@
+template(name='layout')
+  +famousContext id="mainCtx"
+    +switchRoute
+    +RenderController
+      +yield
+
+template(name='switchRoute')
+  +StateModifier align='[1,0]' origin='[1,0]' translate='[-10,10,10]'
+    +Surface id='switchRoute' size='[true, true]' class='overlay'
+      p Switch route
+
+template(name='roomsShow')
+  +SequentialLayout direction="Y" size="[undefined,undefined]"
+    +Surface target="top" template="addRoom" class="top" size="[undefined,40]"
+    +middle
+    
+template(name='addRoom')
+  div.parent
+    div.child
+      span.glyphicon.glyphicon-plus
+
+template(name='second')
+  +StateModifier align='[.5,.5]' origin='[.5,.5]'
+    +Surface size='[true, true]'
+      h1 Second route
+
+template(name='middle')
+  +StateModifier
+    +switchRoute
+    +Scrollview id='scrollview'
+      +FlexGrid id='flexgrid'
+        +famousEach this.rooms
+          +Surface template='roomGridItem'
+
+        
+template(name='roomGridItem')
+  div.jumbotron
+    h3= name

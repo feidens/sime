@@ -1,0 +1,27 @@
+# Meteor packages used by this project, one per line.
+# Check this file (and the other files in this directory) into your repository.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+meteor-platform
+accounts-password
+accounts-twitter
+accounts-facebook
+accounts-github
+accounts-google
+accounts-meteor-developer
+useraccounts:bootstrap
+ian:bootstrap-3
+iron:router
+meteorhacks:fast-render
+less
+coffeescript
+underscore
+maazalik:highcharts
+gadicohen:famous-views
+oorabona:fview-boxlayout
+aldeed:collection2
+pierreeric:fview-flexgrid
+mquandalle:jade
+mjn:famous

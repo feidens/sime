@@ -1,0 +1,15 @@
+<template name="SignInOutLayout">
+  {{#famousContext id="mainCtx"}}
+  {{#HeaderFooterLayout size="[undefined,undefined]" headerSize="0" footerSize="45"}}
+
+  {{#ContainerSurface target="footer" size="[undefined,undefined]" translate="[0,0,200]"}}
+
+  {{/ContainerSurface}}
+
+  {{#Surface size="[undefined,undefined]" target="content" }}
+  {{> yield}}
+  {{/Surface}}
+
+  {{/HeaderFooterLayout}}
+  {{/famousContext}}
+</template>

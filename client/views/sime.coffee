@@ -37,3 +37,12 @@ FView.ready ->
   Transform = famous.core.Transform
   FView.registerView "GridLayout", famous.views.GridLayout
   console.info "%c\nfamous-views started\n", "font-weight: 300; color: #ec5f3e; font-size: x-large; " + "font-family: 'Lato', 'Helvetica Neue', Helvetica, Arial, sans-serif; " + "-webkit-font-smoothing: antialiased;"
+
+
+Template.header.rendered = ->
+  fview = FView.from(this)
+  target = fview.surface or fview.view
+  target.on "click", ->
+    Router.go 'home'
+    return
+  return

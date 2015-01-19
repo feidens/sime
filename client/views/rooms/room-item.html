@@ -1,22 +1,34 @@
 <template name="roomItem">
-  {{#SequentialLayout direction="Y" size="[undefined,undefined]"}}
+  {{#Scrollview size="[undefined,undefined]"}}
+    {{#StateModifier align='[0,0]' origin='[0,0.5]' translate="[10,35,20]" }}
+      {{>Surface size="[undefined,70]" template="roomName"}}
+    {{/StateModifier}}
     {{>Surface size="[undefined,400]" template="gauge"}}
     {{>Surface size="[undefined,400]" template="lineChart"}}
-  {{/SequentialLayout}}
+    {{>Surface size="[undefined,400]" template="tempGauge"}}
+    {{>Surface size="[undefined,400]" template="tempLineChart"}}
+  {{/Scrollview}}
 
 
 </template>
 
+<template name='roomName'>
+  <div class="form-group">
+    <label for={{this.room.name}}></label>
+    <input type="string" data-schema-key="name" name="name" class="room name" required="" value={{this.room.name}}>
+    <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+  </div>
+
+</template>
 
 <template name='gauge'>
-  {{debug}}
+  <!-- {{debug}}
   <h2>Humidity from Raspberri Pi</h2>
   <p>In this example the data is reactive and is dependent on the selection. Feel free to test it:</p>
 
   <select id="reactive">
     <option value="10">10</option>
     <option value="20">20</option>
-    <option value="30">30</option>
     <option value="30">30</option>
     <option value="40">40</option>
     <option value="50">50</option>
@@ -25,7 +37,7 @@
     <option value="80">80</option>
     <option value="90">90</option>
     <option value="100">100</option>
-  </select>
+  </select> -->
 
 
   <div id="container-gauge-reactive" style="min-width: 310px; max-width: 400px; height: 300px; margin: 0 auto"></div>
@@ -36,5 +48,35 @@
 
 <template name="lineChart">
   <div id="container-line-reactive" style="min-width: 310px; max-width: 650px; height: 300px; margin: 0 auto"></div>
+
+</template>
+
+<template name='tempGauge'>
+  <!-- {{debug}}
+  <h2>Humidity from Raspberri Pi</h2>
+  <p>In this example the data is reactive and is dependent on the selection. Feel free to test it:</p>
+
+  <select id="reactive">
+  <option value="10">10</option>
+  <option value="20">20</option>
+  <option value="30">30</option>
+  <option value="40">40</option>
+  <option value="50">50</option>
+  <option value="60">60</option>
+  <option value="70">70</option>
+  <option value="80">80</option>
+  <option value="90">90</option>
+  <option value="100">100</option>
+</select> -->
+
+
+<div id="container-temp-gauge-reactive" style="min-width: 310px; max-width: 400px; height: 300px; margin: 0 auto"></div>
+
+
+</template>
+
+
+<template name="tempLineChart">
+  <div id="container-temp-line-reactive" style="min-width: 310px; max-width: 650px; height: 300px; margin: 0 auto"></div>
 
 </template>

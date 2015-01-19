@@ -36,3 +36,22 @@ SensorData.allow
 
   remove: ->
     false
+
+Meteor.methods
+  insertSensorData: (houseId, roomId, value, type) ->
+    check houseId, String
+    check roomId, String
+    check value, Number
+    check type, String
+
+    # # .. do stuff ..
+    # throw new Meteor.Error("pants-not-found", "Can't find my pants")  if true
+    # "some return value"
+
+    #hum or temp
+    SensorData.insert
+      houseId: houseId
+      roomId: roomId
+      value: value
+      type: type
+      createdAt: new Date()

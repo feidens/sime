@@ -1,4 +1,4 @@
-templateDep = new Deps.Dependency()
+templateTempDep = new Deps.Dependency()
 Highcharts.theme = {
    title: {
       style: {
@@ -20,13 +20,13 @@ Highcharts.setOptions(Highcharts.theme);
 #
 # * Function to draw the line
 #
-builtLineChatReactive = () ->
-  templateDep.depend()
+builtTempLineChatReactive = () ->
+  templateTempDep.depend()
   data = new Array()
   catData = new Array()
   #data[0] = Session.get("reactive")  if Session.get("reactive") isnt `undefined`
 
-  value = @Blaze.getData().humSensorData
+  value = @Blaze.getData().tempSensorData
   items = value.fetch()
   categories = _.pluck(items, "createdAt")
   values = _.pluck(items, "value")
@@ -34,7 +34,7 @@ builtLineChatReactive = () ->
     data.unshift Number value
   for value in categories
     catData.unshift moment(value).format("HH:mm")
-  $("#container-line-reactive").highcharts
+  $("#container-temp-line-reactive").highcharts
     chart:
       type: "line"
       backgroundColor: "rgba(251, 237, 228, 0.0)"
@@ -43,7 +43,7 @@ builtLineChatReactive = () ->
       style:
         color: '#fff'
         fontSize: '16px'
-      text: "Humidity overview"
+      text: "Temperature overview"
 
     subtitle:
       text: "Rasperri Pi"
@@ -53,7 +53,7 @@ builtLineChatReactive = () ->
 
     yAxis:
       title:
-        text: "Humidity (rH)"
+        text: "Temp (°C)"
 
     plotOptions:
       line:
@@ -72,16 +72,16 @@ builtLineChatReactive = () ->
 #
 # * Function to draw the gauge
 #
-builtGaugeHumReactive = () ->
-  templateDep.depend()
+builtTempGaugeReactive = () ->
+  templateTempDep.depend()
   data = new Array()
   data[0] = 0
   #data[0] = Session.get("reactive")  if Session.get("reactive") isnt `undefined`
 
-  value = Number @Blaze.getData().lastHumSensorData
+  value = Number @Blaze.getData().lastTempSensorData
   data[0] = value
 
-  $("#container-gauge-reactive").highcharts
+  $("#container-temp-gauge-reactive").highcharts
     chart:
       type: "gauge"
       plotBackgroundColor: null
@@ -92,7 +92,7 @@ builtGaugeHumReactive = () ->
 
 
     title:
-      text: "Hygrometer"
+      text: "Thermometer"
 
     pane:
       startAngle: -140
@@ -150,7 +150,7 @@ builtGaugeHumReactive = () ->
         rotation: "auto"
 
       title:
-        text: "rH"
+        text: "°C"
 
       plotBands: [
         from: 30
@@ -189,72 +189,60 @@ builtGaugeHumReactive = () ->
   return
 
 
-Template["gauge"].helpers
+
+Template["roomName"].helpers
   debug: ->
     console.log "DEBUG!!!!!!!!!"
     console.log @
-  topGenresChart = ->
-    chart:
-      plotBackgroundColor: null
-      plotBorderWidth: null
-      plotShadow: false
-
-    title:
-      text: @username + "'s top genres"
-
-    tooltip:
-      pointFormat: "<b>{point.percentage:.1f}%</b>"
-
-    plotOptions:
-      pie:
-        allowPointSelect: true
-        cursor: "pointer"
-        dataLabels:
-          enabled: true
-          format: "<b>{point.name}</b>: {point.percentage:.1f} %"
-          style:
-            color: (Highcharts.theme and Highcharts.theme.contrastTextColor) or "black"
-
-          connectorColor: "silver"
-
-    series: [
-      type: "pie"
-      name: "genre"
-      data: [ [ "Adventure", 45.0 ], [ "Action", 26.8 ], [ "Ecchi", 12.8 ], [ "Comedy", 8.5 ], [ "Yuri", 6.2 ] ]
-     ]
-
 
 #
 # * Call the function to built the chart when the template is rendered
 #
-Template["gauge"].rendered = ->
+Template["tempGauge"].rendered = ->
   @autorun (c) ->
-    builtGaugeHumReactive()
+    builtTempGaugeReactive()
     return
 
   return
 
-Template["lineChart"].rendered = ->
+Template["tempLineChart"].rendered = ->
   @autorun (c) ->
-    builtLineChatReactive()
+    builtTempLineChatReactive()
     return
 
 
 
   return
+
+
+Template["roomName"].events
+  'change ': (e, a) ->
+
+    selector = @room.name
+    newValue = $("input[name=name]").val()
+    set= {}
+    set['name'] = newValue
+    console.log "change"
+    console.log @room._id
+    console.log set
+    b = Rooms.update @room._id,
+      $set: set
+
+
+    console.log b
 
 #
 # * Template events
 #
-Template.gauge.events = "change #reactive": (event, template) ->
+Template.tempGauge.events = "change #reactive": (event, template) ->
   newValue = $(event.target).val()
 
   SensorData.insert
-    type: 'hum'
+    type: 'temp'
     houseId: 'YG3xwfqrhsx669TZe'
     value: newValue
     roomId: Router.current().params._id
     createdAt: new Date()
-  templateDep.changed()
+  templateTempDep.changed()
 
   return

@@ -9,10 +9,21 @@ head
 
 
 template(name="appBody")
-  +famousContext id="mainCtx"}}
-    +HeaderFooterLayout headerSize="50" footerSize="0"}}
-      +StateModifier align='[.5,.5]' origin='[.5,.5]' target="header" translate="[0,10,20]" 
-        +Surface size="[true, 50]"
+  +famousContext id="mainCtx"
+    +HeaderFooterLayout headerSize="85" footerSize="0"}}
+      +StateModifier align='[.5,0]' origin='[.5,0]' target="header" translate="[0,20,20]" 
+        +switchRoute
+        +Surface size="[true, 50]" 
           #header sime
+        
+        +StateModifier align='[0,0]' origin='[0,0]' translate="[10,0,20]" 
+          +Surface size="[true, true]" template="header"
+            
+          
       +RenderController id="mainRC" target="content" transition="slideWindowLeft" size="[undefined,undefined]"
         +yield
+
+
+
+template(name='header')
+  i.fa.fa-arrow-circle-left.fa-2x

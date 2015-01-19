@@ -36,26 +36,38 @@ if Meteor.isClient
   dataReadyHold = LaunchScreen.hold()
 
   # Show the loading screen on desktop
-  # Router.onBeforeAction "loading",
-  #   except: [ "join", "signin" ]
+  Router.onBeforeAction "loading",
+    except: [ "atSignUp", "atSignIn" ]
   #
   # Router.onBeforeAction "dataNotFound",
-  #   except: [ "join", "signin" ]
+  #   except: [ "atSignUp", "atSignIn" ]
 
 
 RoomController = RouteController.extend
     template: 'roomItem'
     waitOn: ->
-      Meteor.subscribe 'sensorData', @params._id
-    getSensorData: ->
-      SensorData.find {}, {sort: {createdAt: -1}}
-    getLastSensorData: ->
-      data = @getSensorData().fetch()[0]
+      Meteor.subscribe 'sensorData', @params._id if @params._id
+      Meteor.subscribe 'roomName', @params._id
+    getHumSensorData: ->
+      SensorData.find {'type': 'hum'}, {sort: {createdAt: -1}}
+    lastHumSensorData: ->
+      data = @getHumSensorData().fetch()[0]
       value = data.value if data
       value
+    getTempSensorData: ->
+      SensorData.find {'type': 'temp'}, {sort: {createdAt: -1}}
+    lastTempSensorData: ->
+      data = @getTempSensorData().fetch()[0]
+      value = data.value if data
+      value
+    getRoom: ->
+      Rooms.findOne()
     data: ->
-      sensorData: @getSensorData()
-      lastSensorData: @getLastSensorData()
+      room: @getRoom()
+      humSensorData: @getHumSensorData()
+      lastHumSensorData: @lastHumSensorData()
+      tempSensorData: @getTempSensorData()
+      lastTempSensorData: @lastTempSensorData()
 
 
 Engine = famous.core.Engine
@@ -79,7 +91,7 @@ Router.map ->
       Meteor.subscribe 'rooms', @params._id
     data: ->
       data = Rooms.find()
-      rooms: data.fetch()
+      rooms: data
     onAfterAction: ->
       Timer.setTimeout ->
         fscrollview = FView.byId 'scrollview'

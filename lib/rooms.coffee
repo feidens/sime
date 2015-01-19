@@ -22,7 +22,7 @@ Rooms.allow
     true
 
   update: ->
-    false
+    true
 
   remove: ->
     false

@@ -33,13 +33,18 @@ Timer = famous.utilities.Timer
 
 
 
-Template.switchRoute.rendered = ->
+Template["logoutButton"].rendered = ->
   button = (FView.byId 'switchRoute').surface
   button.on 'click', ->
-    if Router.current().route.getName() is 'second'
-      Router.go '/'
-    else
-      Router.go '/second'
+    Meteor.logout (err) ->
+      # callback
+      Router.go('/sign-in')
+      return
+
+    # if Router.current().route.getName() is 'second'
+    #   Router.go '/'
+    # else
+    #   Router.go '/second'
 
 # Configure router and 2 routes
 # Router.configure layoutTemplate: 'layout'

@@ -1,11 +1,3 @@
-# Engine = famous.core.Engine
-# Timer = famous.utilities.Timer
-#
-# Template.middle.rendered = ->
-#   fscrollview = FView.byId("scrollview")
-#   Engine.pipe fscrollview.view
-#
-
 Template["roomGridItem"].rendered = ->
   fview = FView.from(this)
   target = fview.surface or fview.view
@@ -41,21 +33,6 @@ Template["logoutButton"].rendered = ->
       Router.go('/sign-in')
       return
 
-    # if Router.current().route.getName() is 'second'
-    #   Router.go '/'
-    # else
-    #   Router.go '/second'
 
-# Configure router and 2 routes
-# Router.configure layoutTemplate: 'layout'
-# Router.route '/',
-#   action: ->
-#     @render 'roomsShow'
-#   onAfterAction: ->
-#     Timer.setTimeout ->
-#       Timer.setInterval setOverlayOpacity, 2000
-#       fscrollview = FView.byId 'scrollview'
-#       Engine.pipe fscrollview.view if fscrollview
-#     , 100
 
 Router.route '/second'

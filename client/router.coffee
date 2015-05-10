@@ -1,18 +1,17 @@
+cachedSubs = new SubsManager(
+  cacheLimit: 20
+  expireIn: 9999
+)
+
+
 Router.configure
 
   # we use the  appBody template to define the layout for the entire app
   layoutTemplate: "appBody"
 
-  # # the appNotFound template is used for unknown routes and missing lists
-  # notFoundTemplate: "appNotFound"
-  #
-  # # show the appLoading template whilst the subscriptions below load their data
-  # loadingTemplate: "appLoading"
 
-  # wait on the following subscriptions before rendering the page to ensure
-  # the data it's expecting is present
   waitOn: ->
-    [ Meteor.subscribe("houses") ]
+    [ cachedSubs.subscribe("houses") ]
 
 
 
@@ -46,8 +45,8 @@ if Meteor.isClient
 RoomController = RouteController.extend
     template: 'roomItem'
     waitOn: ->
-      Meteor.subscribe 'sensorData', @params._id if @params._id
-      Meteor.subscribe 'roomName', @params._id
+      cachedSubs.subscribe 'sensorData', @params._id if @params._id
+      cachedSubs.subscribe 'roomName', @params._id
     getHumSensorData: ->
       SensorData.find {'type': 'hum'}, {sort: {createdAt: -1}}
     lastHumSensorData: ->
@@ -79,16 +78,9 @@ Router.map ->
   @route "roomsShow",
     path: "/rooms/:_id"
 
-    # subscribe to todos before the page is rendered but don't wait on the
-    # subscription, we'll just render the items as they arrive
-    # onBeforeAction: ->
-    #   @todosHandle = Meteor.subscribe("todos", @params._id)
-    #
-    #   # Handle for launch screen defined in app-body.js
-    #   dataReadyHold.release()  if @ready()
-    #   this.next()
+
     waitOn: ->
-      Meteor.subscribe 'rooms', @params._id
+      cachedSubs.subscribe 'rooms', @params._id
     data: ->
       data = Rooms.find()
       rooms: data
@@ -115,10 +107,3 @@ setOverlayOpacity = ->
   currentOpacity = overlay.modifier.getOpacity()
   nextOpacity = if currentOpacity > .5 then 0 else 1
   overlay.modifier.setOpacity nextOpacity, duration: 300
-
-# if Meteor.isClient
-  # Router.onBeforeAction "loading",
-  #   except: [ "join", "signin" ]
-  #
-  # Router.onBeforeAction "dataNotFound",
-  #   except: [ "join", "signin" ]

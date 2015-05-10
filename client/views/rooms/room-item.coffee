@@ -16,6 +16,11 @@ Highcharts.theme = {
 };
 
 
+Template["roomItem"].helpers
+  debug: ->
+    console.log @
+
+
 Highcharts.setOptions(Highcharts.theme);
 #
 # * Function to draw the line

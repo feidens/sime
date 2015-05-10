@@ -48,19 +48,19 @@ RoomController = RouteController.extend
       cachedSubs.subscribe 'sensorData', @params._id if @params._id
       cachedSubs.subscribe 'roomName', @params._id
     getHumSensorData: ->
-      SensorData.find {'type': 'hum'}, {sort: {createdAt: -1}}
+      SensorData.find {'roomId': @params._id, 'type': 'hum'}, {sort: {createdAt: -1}}
     lastHumSensorData: ->
       data = @getHumSensorData().fetch()[0]
       value = data.value if data
       value
     getTempSensorData: ->
-      SensorData.find {'type': 'temp'}, {sort: {createdAt: -1}}
+      SensorData.find {'roomId': @params._id ,'type': 'temp'}, {sort: {createdAt: -1}}
     lastTempSensorData: ->
       data = @getTempSensorData().fetch()[0]
       value = data.value if data
       value
     getRoom: ->
-      Rooms.findOne()
+      Rooms.findOne({_id: @params._id})
     data: ->
       room: @getRoom()
       humSensorData: @getHumSensorData()
